@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+<head>  
+<script>
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	title:{
+		text: " DUPLICATE Email Categories",
+		horizontalAlign: "left"
+	},
+	data: [{
+		type: "doughnut",
+		startAngle: 240,
+		//innerRadius: 60,
+		indexLabelFontSize: 17,
+		indexLabel: "{label} - #percent%",
+		toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+		dataPoints: [
+
+
+            {label:"\"Selva Prakash (via Google Chat)\" <chat-noreply@google.com>",y:1},
+            {label:"Arun S <arun@skill-lync.co>",y:15},
+            {label:"Dream11 <fantasysports@dream11.com>",y:1},
+            {label:"Facebook <notification@facebookmail.com>",y:16},
+            {label:"Google Pay <googlepay-noreply@google.com>",y:1},
+            {label:"Indeed <alert@indeed.com>",y:16},
+            {label:"JetBrains Team <news@jetbrains.com>",y:1},
+            {label:"Kaggle <noreply@kaggle.com>",y:2},
+            {label:"LinkedIn <jobs-listings@linkedin.com>",y:1},
+            {label:"LinkedIn <messages-noreply@linkedin.com>",y:1},
+            {label:"LinkedIn <notifications-noreply@linkedin.com>",y:1},
+            {label:"LinkedIn Job Alerts <jobalerts-noreply@linkedin.com>",y:2},
+            {label:"Mimo <support@getmimo.com>",y:1},
+            {label:"NPTEL <onlinecourses@nptel.iitm.ac.in>",y:2},
+            {label:"Samsung Electronics <noreply1@samsung.com>",y:1},
+            {label:"Shruthi from Skill Lync <shruthi.krishnan@skill-lync.com>",y:5},
+            {label:"Stack Overflow <do-not-reply@stackoverflow.email>",y:1},
+            {label:"Team RapidAPI <support@rapidapi.com>",y:1},
+            {label:"Twitter <info@twitter.com>",y:4},
+            {label:"redbus <greetings@travel.e-redbus.in>",y:1}
+        ]
+
+        
+
+
+	}]
+});
+chart.render();
+
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 600px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>

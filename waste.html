@@ -1,0 +1,34 @@
+window.onload=function() {
+var datapoints=[];
+
+var chart= new CanvasJS.Chart("chartContainer",{
+
+
+    animationEnabled: True,
+    theme:'light2'
+    title:{
+        text:'duplicate emails'
+    },
+    axisY: {
+        title:"numbers",
+        titleFontsize: 20,
+        includeZero:True
+    },
+    data:[{
+        type:"pie"
+        yValueFormatString: "#,### numbers",
+        datapoints:datapoints
+    }]
+});
+function addData(data){
+    for (var i=0; i<data.length; i++){
+        datapoints.push({
+            x:new Date(data[i].date),
+            y:data[i].numbers
+        });
+
+    }
+    chart.render();
+}
+$.getJSON("C:\\Users\\sri\\Desktop\\glance\\mailjsonformat.json",addData);
+}
