@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 import json
 import httplib2
 import os
@@ -173,13 +174,14 @@ def read_msg(user_email):
     service = build('gmail', 'v1',credentials=credentials)
 
     # request a list of all the messages
-    result = service.users().messages().list(userId='me',maxResults=100).execute()
+    result = service.users().messages().list(userId='me',maxResults=10).execute()
     print ('result ', result)
     # We can also pass maxResults to get any number of emails. Like this:
     # result = service.users().messages().list(maxResults=200, userId='me').execute()
     messages = result.get('messages')
     contents = []
     dup=()
+    date=()
     
     for msg in messages:
         # Get the message from its id
@@ -191,6 +193,15 @@ def read_msg(user_email):
             payload = txt['payload']
             headers = payload['headers']
             # print (payload)
+
+            for d in headers:
+                if d['name']=='Date':
+                    date=d['value']
+                    print(date)
+                
+                    
+
+
             
         
             # Look for Subject and Sender Email in the headers
@@ -221,33 +232,36 @@ def read_msg(user_email):
             # Printing the subject, sender's email and message
             # print("Subject: ", subject)
             print("From: ", sender)
+            print("DATE: ", date)
             # print("Message: ", soup.decode_contents())
             # print('\n')
             info = {
         "sender":    sender,
+        "date": date,
         }
             contents.append(info)
+              
 
-
-            
         except:
 
             pass
    
-    df=pd.DataFrame(contents)
-    print(df)
-  
+    df=pd.DataFrame(contents) 
+    df['date']=pd.date_range('2021-09-20',periods=74,freq='D')
+    df=df.set_index(['date'])
+    print('selected_dates',df.loc['2021-09-20':'2021-10-01'])
+
+    # print('modified',df)
     print('col names',df.columns)
-    # count=['1','1','1','1','1','1','1','1','1','1','1','1','1']
     
-    df['COUNT']=1
-    # df=df.assign('COUNT',1)
+    
+    df['COUNT']=1    
+    # print('new columns',df)
+    # print(df.columns)
 
 
-    print('new column',df)
-    print(df.columns)
     df_sum=df.groupby('sender').size()
-    print('df_sum',df_sum)
+    # print('df_sum',df_sum)
     print('df sum columns',df_sum.to_frame())
 
 
@@ -283,4 +297,4 @@ def read_msg(user_email):
     
 
 if __name__ == '__main__':
-    read_msg('rmrsriram@gmail.com')
+    read_msg('selva.prakash@gmail.com')
