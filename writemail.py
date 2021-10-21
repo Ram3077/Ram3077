@@ -247,9 +247,12 @@ def read_msg(user_email):
             pass
    
     df=pd.DataFrame(contents) 
-    df['date']=pd.date_range('2021-09-20',periods=74,freq='D')
-    df=df.set_index(['date'])
-    print('selected_dates',df.loc['2021-09-20':'2021-10-01'])
+    print('updated',df.columns)
+    print('***********************')
+    # df['date']=pd.to_datetime(df['date'])
+    # df=df.set_index(['date'])
+    # print(df)
+    # print('selected_dates',df.loc['2021-09-20':'2021-10-01'])
 
     # print('modified',df)
     print('col names',df.columns)
