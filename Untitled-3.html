@@ -1,0 +1,59 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+  google.charts.load("visualization", { packages: ["timeline"] });
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+
+    var container = document.getElementById('Timeline');
+    var chart = new google.visualization.Timeline(container);
+    var dataTable = new google.visualization.DataTable();
+    var obj = JSON.parse();
+    var data_tables = [];
+    var google_charts = [];
+    var chart_area;
+    chart_area = document.getElementById('chart_div');
+    var chart_options;
+    chart_options = {
+      width: 1500,
+      height: 1000,
+      redFrom: 90,
+      redTo: 100,
+      yellowFrom: 75,
+      yellowTo: 90,
+      minorTicks: 5,
+    };
+    for (var i = 0; i < obj.length; i++) {
+      var chart_container;
+      var data_table;
+      var google_charts;
+      dataTable.addColumn({ type: 'string', id: 'Position' });
+      dataTable.addColumn({ type: 'string', id: 'Name' });
+      dataTable.addColumn({ type: 'date', id: 'Start' });
+      dataTable.addColumn({ type: 'date', id: 'End' });
+      dataTable.addRows([
+        ['subject1', 'sender', new Date(0, 0, 0, 2, 0, 0), new Date(0, 0, 0, 3, 0, 0)],
+        ['subject2', 'sender', new Date(0, 0, 0, 3, 0, 0), new Date(0, 0, 0, 4, 0, 0)],
+        ['subject3', 'sender', new Date(0, 0, 0, 4, 0, 0), new Date(0, 0, 0, 5, 0, 0)],
+        ['subject4', 'sender', new Date(0, 0, 0, 5, 0, 0), new Date(0, 0, 0, 6, 0, 0)],
+        ['subject5', 'sender', new Date(0, 0, 0, 6, 0, 0), new Date(0, 0, 0, 7, 0, 0)],
+        ['subject6', 'sender', new Date(0, 0, 0, 7, 0, 0), new Date(0, 0, 0, 8, 0, 0)],
+        ['subject7', 'sender', new Date(0, 0, 0, 8, 0, 0), new Date(0, 0, 0, 9, 0, 0)],
+        ['subject8', 'sender', new Date(0, 0, 0, 10, 0, 0),new Date(0, 0, 0, 11, 0, 0)]]),
+      dataTable.addRows([obj[i].sender,parseFloat(obj[i].sender)]);
+      dataTable.addRows([obj[i].sender,parseFloat(obj[i].Date)]);
+      DataTable.addRows([obj[i].sender,parseFloat(obj[i].count)]);
+      data_tables.push(data_table)
+      chart_container=document.createElement('DIV');
+      chart_area.appendChild(chart_container);
+      google_chart=new google.visualization.Timeline(chart_container);
+      google_charts.push(google_chart);
+      google_chart.draw(data_table,chart_options);
+    }
+  
+
+      chart.draw(dataTable);
+    }
+</script>
+
+<div id="Timeline"></div>
