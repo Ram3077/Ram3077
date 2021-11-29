@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<!-- <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> -->
+<body>
+
+<!-- <canvas id="myPlot" style="width:100%;max-width:900px"></canvas> -->
+ <div id="Timeline" style="width:100%;max-width:1400px;height:800px"></div> 
+<script type="text/javascript">
+
+function drawChart(){
+
+
+var container = document.getElementById('Timeline');
+    var chart = new google.visualization.Timeline(container);
+    var dataTable = new google.visualization.DataTable();
+    // var obj = JSON.parse();
+    var data_tables = [];
+    var google_charts = [];
+    var chart_area;
+    chart_area = document.getElementById('chart_div');
+    var chart_options;
+    chart_options = {
+      width: 1500,
+      height: 1000,
+      redFrom: 90,
+      redTo: 100,
+      yellowFrom: 75,
+      yellowTo: 90,
+      minorTicks: 5,
+    };
+
+    for (var i = 0; i < obj.length; i++) {
+      var chart_container;
+      var data_table;
+      var google_charts;
+      console.log(obj[i].subject)
+      console.log([obj[i].subject,obj[i].sender,Date.parse(obj[i].date,"yyyy/MM/dd HH:mm:ss"),Date.parse(obj[i].date,"yyyy/MM/dd HH:mm:ss")])
+      console.log(typeof([obj[i].subject,obj[i].sender,Date.parse(obj[i].date),Date.parse(obj[i].date)]))
+      console.log(typeof(obj[i]))
+      console.log(typeof(obj[i].date))
+      console.log(typeof(obj[i].subject))
+
+
+      dataTable.addColumn({ type: 'string', id: 'Position' });
+      dataTable.addColumn({ type: 'string', id: 'Name' });
+      dataTable.addColumn({ type: 'date', id: 'Start' });
+      dataTable.addColumn({ type: 'date', id: 'End' });
+      dataTable.addRows(Array([obj[i].subject,obj[i].sender,Date.parse(obj[i].date,"yyyy/MM/dd HH:mm:ss"),Date.parse(obj[i].date,"yyyy/MM/dd HH:mm:ss")]));
+      // dataTable.addRows([obj[i].sender,(obj[i].sender)]);
+      // dataTable.addRows([obj[i].sender,(obj[i].date)]);
+      // DataTable.addRows([obj[i].sender,(obj[i].date)]);
+      data_tables.push(data_table)
+      chart_container=document.createElement('DIV');
+      chart_area.appendChild(chart_container);
+      google_chart=new google.visualization.Timeline(chart_container);
+      google_charts.push(google_chart);
+      google_chart.draw(data_table,chart_options);
+    }
+  }
+
+
+function sort_by_key(array, key)
+{
+ return array.sort(function(a, b)
+ {
+  var x = a[key]; var y = b[key];
+  return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+ });
+}
+ 
+// console.log(data)
+var list1 = {{data | tojson}};
+// console.log( json.stringify(list1));
+// list1 = JSON.stringify(list1)
+var obj = JSON.parse(list1);
+obj = sort_by_key(obj, 'date');
+console.log(obj[1])
+
+console.log (obj[0])
+console.log(obj[0]['sender'])
+console.log(obj.length)
+google.charts.load("visualization", { packages: ["timeline"] });
+google.charts.setOnLoadCallback(drawChart);
+</script>
+
+</body>
+</html>
