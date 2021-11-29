@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<body>
+
+<!-- <canvas id="myPlot" style="width:100%;max-width:900px"></canvas> -->
+<div id="senderPlot" style="width:100%;max-width:1400px;height:800px"></div>
+
+
+<script>
+
+function sort_by_key(array, key)
+{
+ return array.sort(function(a, b)
+ {
+  var x = a[key]; var y = b[key];
+  return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+ });
+}
+
+
+
+var list1 = {{data | tojson}}
+//console.log( json.stringify(list1));
+//list1 = JSON.stringify(list1)
+var obj = JSON.parse(list1);
+obj = sort_by_key(obj, 'body');
+console.log(obj[1])
+
+console.log (obj[0])
+console.log(obj[0]['sender'])
+console.log(obj.length)
+
+var sender=[];
+var count=[];
+for (let i = 0; i < obj.length; i++) {
+  console.log(obj[i]['sender'])
+  emailid_pos = obj[i]['sender'].indexOf("<")
+  sender.push(obj[i]['sender'].substring(0,emailid_pos).substring(0,20)) ;
+  count.push(obj[i]['body']) ;
+   
+}
+console.log(sender);
+console.log(count);
+
+var data = [{
+  x: count,
+  y: sender,
+  type: "bar",
+  orientation: "h",
+  marker: {color:"rgba(152,28,253,0.6)"}
+}];
+
+var layout = {title:"Recent Emails by Sender",
+  xaxis1: {
+    domain: [0, 1],
+    zeroline: false,
+    showline: false,
+    showticklabels: true,
+    showgrid: true,
+	 tickmode: "linear",
+	tick0:1
+	
+  },
+    yaxis1: {
+    zeroline: false,
+    showline: false,
+    showticklabels: true,
+    showgrid: true,
+	categoryorder: "total ascending"
+	
+  },
+   margin: {
+    l: 200,
+    r: 20,
+    t: 120,
+    b: 70
+  },
+  font :{
+  size: 18}
+  	,bargap: 0.4
+	,width: 2
+	,plot_bgcolor:"#e4bcc6"
+  };
+Plotly.newPlot("senderPlot", data, layout);
+var x_pos = 10;
+//var y = 250;
+var el = document.getElementById('senderPlot');
+el.style.position = "absolute";
+el.style.left = x_pos + 'px';
+//el.style.top = y + 'px';
+
+</script>
+
+</body>
+</html>
