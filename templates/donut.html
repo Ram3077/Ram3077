@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <body>
+    <div id="piechart" style="width: 900px; height: 500px;"></div>
+  <script type="text/javascript">
+
+    function drawChart() {
+      var list1 = {{ data | tojson}};
+    console.log(list1)
+
+    var obj = JSON.parse(list1);
+    obj = sort_by_key(obj, 'date');
+    console.log(obj)
+    
+    var container = document.getElementById('piechart');
+    var chart = new google.visualization.PieChart(container);
+
+    var dataTable= new google.visualization.DataTable();
+
+    dataTable.addColumn('string', 'Sender');
+    dataTable.addColumn('string', 'Subject');
+    dataTable.addColumn('date', 'Date');
+    dataTable.addColumn('date', 'Date1');
+    for (var i = 0; i < obj.length; i++) {
+      console.log(obj[i]['subject'], new Date(obj[i]['date']))
+      dataTable.addRow(new Array(obj[i]['sender'], obj[i]['subject'], new Date(obj[i]['sent_datetime']), new Date(obj[i]['sent_datetime'])));
+    }
+    var result=google.visualization.data.group(
+      dataTable,
+      [0],
+      [{'column':3,'aggregation':google.visualization.data.count,'type':'number'}]
+      
+    );
+    console.log(result)
+    var chart_options;
+    chart_options = {
+      title: "google dounut chart",
+      // pieHole: 0.5,
+    };
+
+      chart.draw(result,chart_options);
+    }
+    function sort_by_key(array, key) {
+      return array.sort(function (a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+      });
+
+
+    }
+    google.charts.load("visualization", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(drawChart);
+
+  </script>
+</head>
+
+</body>
+
+</html>
