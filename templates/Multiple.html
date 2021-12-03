@@ -1,0 +1,121 @@
+<html>
+
+<head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<body>
+  <div id="Timeline" style="width:100%;max-width:1400px;height:800px"></div>
+  <div id="piechart" style="width: 900px; height: 500px;"></div>
+  <script type="text/javascript">
+
+
+    function drawtimeChart() {
+      var list1 = {{ data | tojson
+    }};
+    console.log(list1)
+
+    var obj = JSON.parse(list1);
+    obj = sort_by_key(obj, 'date');
+    console.log(obj)
+
+    var container = document.getElementById('Timeline');
+    var chart = new google.visualization.Timeline(container);
+
+    var dataTable = new google.visualization.DataTable();
+    dataTable.addColumn('string', 'sender');
+    dataTable.addColumn('string', 'Subject');
+    dataTable.addColumn('date', 'date')
+    dataTable.addColumn('date', 'date1')
+    for (var i = 0; i < obj.length; i++) {
+      console.log(obj[i]['subject'], new Date(obj[i]['date']))
+      dataTable.addRow(new Array(obj[i]['sender'], obj[i]['subject'], new Date(obj[i]['sent_datetime']), new Date(obj[i]['sent_datetime'])));
+    }
+
+    // Set options for Sarah's pie chart.
+    var chart_options;
+    chart_options = {
+      width: 600,
+      height: 400,
+      title:'DATAS REPRESENTED IN TIMELINE CHART',
+      redFrom: 90,
+      redTo: 100,
+      yellowFrom: 75,
+      yellowTo: 90,
+      minorTicks: 5,
+      hAxis: { format: 'MM-dd HH:mm' }
+    };
+    console.log(dataTable)
+    // Instantiate and draw the chart for Sarah's pizza.
+    // var chart = new google.visualization.Timeline(document.getElementById('Timeline'));
+    chart.draw(dataTable, chart_options);
+  }
+
+    function sort_by_key(array, key) {
+      return array.sort(function (a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+      });
+    }
+
+
+
+    // Callback that draws the pie .
+    function drawPieChart() {
+      var list1 = {{ data | tojson
+    }};
+    console.log(list1)
+
+    var obj = JSON.parse(list1);
+    obj = sort_by_key(obj, 'date');
+    console.log(obj)
+    var container = document.getElementById('piechart');
+    var chart = new google.visualization.PieChart(container);
+    var dataTable1 = new google.visualization.DataTable();
+    dataTable1.addColumn('string', 'sender');
+    dataTable1.addColumn('string', 'Subject');
+    dataTable1.addColumn('date', 'date');
+    dataTable1.addColumn('date', 'date1');
+    for (var i = 0; i < obj.length; i++) {
+      console.log(obj[i]['subject'], new Date(obj[i]['date']))
+      dataTable1.addRow(new Array(obj[i]['sender'], obj[i]['subject'], new Date(obj[i]['sent_datetime']), new Date(obj[i]['sent_datetime'])));
+    }
+    var result = google.visualization.data.group(
+      dataTable1,
+      [0],
+      [{ 'column': 3, 'aggregation': google.visualization.data.count, 'type': 'number' }]
+
+    );
+
+    // Set options for Anthony's pie chart.
+    var chart_options = {
+      title: 'DATAS REPRESENTED IN DONUT CHART',
+      width: 1000,
+      pieHole:0.5,
+      height: 500,
+      pieSliceText:'value'
+    };
+
+    // Instantiate and draw the chart for Anthony's pizza.
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+    chart.draw(result, chart_options);
+  }
+
+    function sort_by_key(array, key) {
+      return array.sort(function (a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+      });
+
+
+    }
+    google.charts.load("visualization", { packages: ["timeline"] });
+    google.charts.load("visualization", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(drawtimeChart);
+
+    google.charts.setOnLoadCallback(drawPieChart);
+  </script>
+  </head>
+
+</body>
+
+</html>
